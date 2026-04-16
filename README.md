@@ -31,6 +31,7 @@ air_calibration/
 │   ├── analyze_pm25_diff.py      # PM2.5差异分析
 │   ├── analyze_difference_factors.py  # 差异因素分析
 │   └── analyze_anomalies.py       # 异常传感器检测
+├── src/visualization.py           # 可视化图表生成
 ├── run_cleaning.py               # 数据清洗流程
 ├── run_training.py               # 模型训练主程序
 ├── analysis_report.md            # 分析报告
@@ -38,6 +39,9 @@ air_calibration/
 └── data/                         # 数据目录
     ├── raw/                      # 原始数据
     └── processed/                # 处理后数据
+├── output/                       # 输出目录
+│   └── figures/                  # 可视化图表
+└── models/                       # 训练好的模型
 ```
 
 ## 环境配置
@@ -241,3 +245,55 @@ MIT License
 ---
 
 *Last updated: 2026-04*
+
+## 可视化图表
+
+本项目提供完整的可视化图表生成功能，共生成10张图表用于支撑分析报告。
+
+### 生成图表
+
+```bash
+conda activate aircalib
+python src/visualization.py
+```
+
+生成的图表位于 `output/figures/` 目录。
+
+### 图表清单
+
+#### 问题1：PM2.5差异定量分析
+
+| 图表 | 文件 | 说明 |
+|:----|:-----|:-----|
+| 图1 | `fig1_pm25_timeseries.png` | PM2.5时间序列对比图：全时段趋势 + 一周局部放大 |
+| 图2 | `fig2_pm25_scatter_comparison.png` | PM2.5校准前后散点对比：原始/校准 vs 国控点，y=x参考线 |
+| 图3 | `fig3_error_by_pollution_level.png` | 不同污染等级误差柱状图：MAE/RMSE 随污染程度变化 |
+
+#### 问题2：差异因素分析
+
+| 图表 | 文件 | 说明 |
+|:----|:-----|:-----|
+| 图4 | `fig4_zero_drift.png` | 零点漂移多子图：PM2.5/NO2/SO2/O3 残差时间序列 |
+| 图5 | `fig5_range_drift.png` | 量程漂移分段回归图：CO/SO2/O3 前后两期拟合对比 |
+| 图7 | `fig7_cross_interference.png` | 交叉干扰热力图：六污染物相关矩阵 |
+
+#### 问题3：校准模型效果
+
+| 图表 | 文件 | 说明 |
+|:----|:-----|:-----|
+| 图6 | `fig6_pm25_ablation.png` | PM2.5模型消融结果图：A/B/C/D模型 MAE/R²柱状对比 |
+| 图8 | `fig8_meteorological_effects.png` | 气象因素影响图：PM2.5残差vs湿度、O3残差vs风速 |
+| 图9 | `fig9_multi_pollutant_performance.png` | 多污染物模型性能对比图：六污染物 MAE/RMSE/R² |
+
+#### 问题4：异常传感器检测
+
+| 图表 | 文件 | 说明 |
+|:----|:-----|:-----|
+| 图10 | `fig10_sensor_reliability.png` | 传感器可靠性评分图：综合评分 + 维度分解 |
+
+### 图表风格
+
+- 分辨率：150 DPI
+- 格式：PNG
+- 中文字体：SimHei / Noto Sans CJK SC
+- 配色：蓝色(国控点)、红色(原始值)、绿色(校准后)、黄绿色(前期)、橙红色(后期)
