@@ -1,0 +1,17 @@
+name: aircalib
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy
+  - pandas
+  - scipy
+  - scikit-learn
+  - statsmodels
+  - matplotlib
+  - jupyterlab
+  - pyarrow
+  - openpyxl
+  - pip
+  - pip:
+      - xgboost
